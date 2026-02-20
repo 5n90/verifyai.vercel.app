@@ -3,7 +3,11 @@
   "builds": [
     {
       "src": "api/index.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb",
+        "runtime": "python3.11"
+      }
     },
     {
       "src": "public/**",
@@ -16,11 +20,25 @@
       "dest": "api/index.py"
     },
     {
-      "src": "/(.*)",
+      "src": "/static/(.*)",
       "dest": "public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "public/index.html"
     }
   ],
   "env": {
     "GEMINI_API_KEY": "@gemini_api_key"
+  },
+  "buildCommand": "pip install -r requirements.txt",
+  "outputDirectory": "public",
+  "framework": "flask",
+  "regions": ["iad1"],
+  "functions": {
+    "api/index.py": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
   }
 }
