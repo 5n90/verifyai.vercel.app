@@ -15,9 +15,15 @@ load_dotenv()
 app = Flask(__name__, static_folder='../public', static_url_path='')
 CORS(app)
 
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '${GEMINI_API_KEY}')
+# Load API key from environment variable only
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+if not GEMINI_API_KEY:
+    raise ValueError('GEMINI_API_KEY environment variable is not set. Please configure it in your environment.')
+# Configure Gemini API
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
+else:
+    print('WARNING: GEMINI_API_KEY not configured. Some features will be unavailable.')
 
 bio_analyzer = BioAuthenticityAnalyzer(GEMINI_API_KEY)
 

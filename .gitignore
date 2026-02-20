@@ -31,10 +31,16 @@ wheels/
 *~
 .DS_Store
 
-# Environment
+# Environment - NEVER commit these files
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
+.env.test
+*.env
+*.env.*
+!.env.example
 
 # Vercel
 .vercel
